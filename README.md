@@ -20,7 +20,7 @@ Discover  ->  Assess  ->  Recommend  ->  Approve  ->  Enforce (backup, verify, r
 ## Quick start (2 minutes, no network or hardware needed)
 
 ```bash
-git clone https://github.com/<your-username>/campusshield.git
+git clone https://github.com/RajveerMashruwala/campusshield.git
 cd campusshield
 python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
