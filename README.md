@@ -1,3 +1,4 @@
+![CI](https://github.com/RajveerMashruwala/CampusShield/actions/workflows/ci.yml/badge.svg)
 # CampusShield - Smart Campus Network Security
 
 A working prototype that **identifies network assets, detects security weaknesses, and recommends / enforces
