@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Assets{% endblock %}{% block body %}
+<section><h2>Asset inventory ({{ assets|length }})</h2>
+<table><tr><th>IP</th><th>Hostname</th><th>MAC / Vendor</th><th>Type / OS</th><th>VLAN / Zone</th><th>Crit.</th><th>Open ports</th><th>Last seen</th></tr>
+{% for a in assets %}<tr><td><a href="{{ url_for('asset', ip=a.ip) }}">{{ a.ip }}</a></td><td>{{ a.hostname }}</td>
+<td>{{ a.mac or '-' }}<br><small>{{ a.vendor }}</small></td><td>{{ a.device_type }}<br><small>{{ a.os }}</small></td>
+<td>{{ a.vlan or '-' }} / {{ a.zone }}</td><td>{{ a.criticality }}</td>
+<td>{% for p,i in a.open_ports.items() %}{{ p }}/{{ i.service }} {% endfor %}</td><td>{{ a.last_seen }}</td></tr>{% endfor %}</table></section>{% endblock %}

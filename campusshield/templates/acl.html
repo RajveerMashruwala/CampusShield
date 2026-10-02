@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}ACL Audit{% endblock %}{% block body %}
+<section><h2>ACL / firewall audit ({{ issues|length }} issues)</h2>
+<table><tr><th>Severity</th><th>ACL</th><th>Line</th><th>Issue</th><th>Detail and fix</th></tr>
+{% for i in issues %}<tr><td><span class="badge {{ i.severity }}">{{ i.severity }}</span></td><td>{{ i.acl }}</td><td>{{ i.line_no or '-' }}</td>
+<td>{{ i.issue }}</td><td>{{ i.detail }}<br><small><b>Fix:</b> {{ i.fix }}</small></td></tr>
+{% else %}<tr><td colspan="5">No issues found (or no configuration loaded).</td></tr>{% endfor %}</table></section>
+<div class="row"><section><h2>Current device configuration</h2><pre>{{ cfg or '(none loaded)' }}</pre></section>
+<section><h2>Load a configuration</h2><form method="post" action="{{ url_for('acl_upload') }}">
+<input type="hidden" name="csrf" value="{{ csrf }}"><textarea name="config" placeholder="Paste Cisco IOS ACLs / interfaces here"></textarea>
+<p><button>Load and audit</button></p></form></section></div>{% endblock %}

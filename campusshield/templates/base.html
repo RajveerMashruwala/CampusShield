@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CampusShield - {% block title %}Dashboard{% endblock %}</title>
+<style>
+:root{--navy:#14284b;--teal:#0e7c86;--bg:#f4f7f9;--line:#d5dee4;--crit:#b3261e;--high:#d9730d;--med:#b8a100;--low:#2e7d32}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:#1c2b39}
+header{background:var(--navy);color:#fff;padding:12px 24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+header h1{font-size:20px;margin:0}header h1 span{color:#6fd3dc}
+nav a{color:#cfe3ea;text-decoration:none;margin-right:14px;font-size:14px}nav a:hover{color:#fff}
+main{max-width:1200px;margin:20px auto;padding:0 16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px}
+.card b{display:block;font-size:26px;color:var(--navy)}.card small{color:#5a6b78}
+section{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:18px;overflow-x:auto}
+h2{margin:0 0 10px;font-size:17px;color:var(--navy)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}th{background:var(--navy);color:#fff;text-align:left;padding:7px 9px}
+td{border-bottom:1px solid var(--line);padding:7px 9px;vertical-align:top}tr:nth-child(even) td{background:#f1f6f8}
+.badge{padding:2px 8px;border-radius:10px;color:#fff;font-size:12px;font-weight:600}
+.critical{background:var(--crit)}.high{background:var(--high)}.medium{background:var(--med)}.low{background:var(--low)}
+.pending{background:#607d8b}.approved{background:#1565c0}.applied{background:var(--low)}.rejected{background:#8d6e63}.failed{background:var(--crit)}
+.mitigated{background:var(--low)}.open{background:var(--high)}
+pre{background:#10202e;color:#d6ecf3;padding:12px;border-radius:6px;overflow-x:auto;font-size:12.5px;margin:6px 0}
+button,.btn{background:var(--teal);color:#fff;border:0;border-radius:5px;padding:6px 12px;cursor:pointer;font-size:13px}
+button.alt{background:#78909c}button.danger{background:var(--crit)}form.inline{display:inline}
+input[type=text],textarea{width:100%;padding:7px;border:1px solid var(--line);border-radius:5px;font-family:inherit}
+textarea{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;min-height:160px}
+.flash{background:#e3f4f6;border:1px solid #9fd3d9;padding:9px 12px;border-radius:6px;margin-bottom:12px}
+.bar{height:14px;background:var(--teal);border-radius:3px}.row{display:flex;gap:16px;flex-wrap:wrap}.row>*{flex:1;min-width:260px}
+footer{text-align:center;color:#6b7c88;font-size:12px;padding:16px}
+</style></head><body>
+<header><h1>Campus<span>Shield</span></h1>
+<nav><a href="{{ url_for('index') }}">Dashboard</a><a href="{{ url_for('assets') }}">Assets</a>
+<a href="{{ url_for('findings') }}">Findings</a><a href="{{ url_for('acl') }}">ACL Audit</a>
+<a href="{{ url_for('recommendations') }}">Recommendations</a><a href="{{ url_for('baseline') }}">Baseline ACLs</a>
+<a href="{{ url_for('log') }}">Audit Log</a></nav></header>
+<main>{% with msgs = get_flashed_messages() %}{% for m in msgs %}<div class="flash">{{ m }}</div>{% endfor %}{% endwith %}
+{% block body %}{% endblock %}</main>
+<footer>CampusShield v{{ version }} - authorised use only - enforcement target: {{ device }}</footer>
+</body></html>

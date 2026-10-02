@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block title %}Baseline ACLs{% endblock %}{% block body %}
+<section><h2>Baseline zone ACLs (least-privilege policy matrix)</h2>
+<p>Generated from the zone model in <code>campusshield/config.py</code>. Review before deploying to a production switch.</p></section>
+{% for z,c in configs.items() %}<section><h2>{{ z }}</h2><pre>{{ c }}</pre></section>{% endfor %}{% endblock %}

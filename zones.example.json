@@ -1,0 +1,6 @@
+[
+  {"vlan": 30, "name": "Students", "subnet": "192.168.30.0/24", "trust": "low", "criticality": 1,
+   "exposure": 1.2, "acl": "STUDENT-IN", "profile": "restricted", "quarantinable": true},
+  {"vlan": 50, "name": "Servers / DMZ", "subnet": "192.168.50.0/24", "trust": "critical", "criticality": 5,
+   "exposure": 1.5, "acl": "SERVER-IN", "profile": "server", "quarantinable": false}
+]

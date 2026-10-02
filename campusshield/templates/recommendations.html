@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}Recommendations{% endblock %}{% block body %}
+<section><h2>Recommended security controls ({{ recs|length }})</h2>
+<p><small>Workflow: review, Approve, then Apply. Nothing is pushed without approval. "Dry run" only writes the config to data/output/.</small></p>
+<table><tr><th>#</th><th>Priority</th><th>Control</th><th>Status</th><th>Actions</th></tr>
+{% for r in recs %}<tr><td>{{ r.id }}</td><td><span class="badge {{ r.priority }}">{{ r.priority }}</span><br><small>risk {{ r.risk_score }}</small></td>
+<td><b>{{ r.title }}</b><br><small>{{ r.control_type }} | asset {{ r.asset_ip }}</small><br>{{ r.description }}
+{% if r.config_text %}<pre>{{ r.config_text }}</pre>{% endif %}</td>
+<td><span class="badge {{ r.status }}">{{ r.status }}</span></td><td>
+{% for act,label,cls in [('approve','Approve',''),('dryrun','Dry run','alt'),('apply','Apply','danger'),('reject','Reject','alt')] %}
+{% if (act=='approve' and r.status=='pending') or (act in ('dryrun','apply') and r.status=='approved' and r.enforceable) or (act=='reject' and r.status in ('pending','approved')) %}
+<form class="inline" method="post" action="{{ url_for('rec_action', rec_id=r.id, action=act) }}"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="{{ cls }}">{{ label }}</button></form>{% endif %}{% endfor %}
+{% if not r.enforceable %}<small>manual</small>{% endif %}</td></tr>{% endfor %}</table></section>{% endblock %}

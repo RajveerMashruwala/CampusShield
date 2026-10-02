@@ -1,0 +1,30 @@
+{% extends "base.html" %}{% block body %}
+<div class="cards">
+ <div class="card"><b>{{ s.assets }}</b><small>Assets discovered</small></div>
+ <div class="card"><b>{{ s.open_findings }}</b><small>Open findings ({{ s.mitigated }} mitigated)</small></div>
+ <div class="card"><b>{{ s.aggregate_risk }}</b><small>Aggregate risk score</small></div>
+ <div class="card"><b>{{ s.acl_issues }}</b><small>ACL issues ({{ s.acl_critical }} critical)</small></div>
+ <div class="card"><b>{{ s.pending_recs }}</b><small>Pending recommendations</small></div>
+</div>
+<div class="row">
+<section><h2>Open findings by priority</h2>
+{% for p,n in s.priorities.items() %}<p><span class="badge {{ p }}">{{ p }}</span> &nbsp;{{ n }}</p>{% endfor %}</section>
+<section><h2>Risk by zone</h2>
+{% set mx = (s.zone_risk[0][1] if s.zone_risk else 1) %}
+{% for z,v in s.zone_risk %}<div style="margin:6px 0"><small>{{ z }} - {{ v }}</small>
+<div class="bar" style="width:{{ (v/mx*100)|round }}%"></div></div>{% else %}<p>No data yet. Load the demo or run a scan.</p>{% endfor %}</section>
+</div>
+<section><h2>Top risky assets</h2><table><tr><th>IP</th><th>Host</th><th>Zone</th><th>Risk</th><th>Priority</th></tr>
+{% for a in s.top_assets %}<tr><td><a href="{{ url_for('asset', ip=a.ip) }}">{{ a.ip }}</a></td><td>{{ a.hostname }}</td><td>{{ a.zone }}</td>
+<td>{{ a.risk }}</td><td><span class="badge {{ a.priority }}">{{ a.priority }}</span></td></tr>{% endfor %}</table></section>
+<div class="row">
+<section><h2>Scan a network</h2>
+<form method="post" action="{{ url_for('scan') }}"><input type="hidden" name="csrf" value="{{ csrf }}">
+<input type="text" name="target" placeholder="e.g. 192.168.1.0/24 (private ranges only)" required>
+<p><button>Start scan</button> <small>Status: {{ scan.message }}</small></p></form>
+<small>Only scan networks you own or are authorised to test.</small></section>
+<section><h2>Actions</h2>
+<form class="inline" method="post" action="{{ url_for('demo') }}"><input type="hidden" name="csrf" value="{{ csrf }}"><button>Load demo campus</button></form>
+<form class="inline" method="post" action="{{ url_for('analyze') }}"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="alt">Re-run analysis</button></form>
+<p><small>JSON API: <a href="/api/summary">/api/summary</a>, <a href="/api/assets">/api/assets</a>, <a href="/api/findings">/api/findings</a></small></p></section>
+</div>{% endblock %}

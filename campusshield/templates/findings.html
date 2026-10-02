@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block title %}Findings{% endblock %}{% block body %}
+<section><h2>All findings ({{ findings|length }})</h2>
+<table><tr><th>Priority</th><th>Risk</th><th>Asset</th><th>Title</th><th>CVSS</th><th>Port</th><th>Status</th></tr>
+{% for f in findings %}<tr><td><span class="badge {{ f.priority }}">{{ f.priority }}</span></td><td>{{ f.risk_score }}</td>
+<td><a href="{{ url_for('asset', ip=f.asset_ip) }}">{{ f.asset_ip }}</a></td><td>{{ f.title }}<br><small>{{ f.detail }}</small></td>
+<td>{{ f.cvss }}</td><td>{{ f.port or '-' }}</td><td><span class="badge {{ f.status }}">{{ f.status }}</span></td></tr>{% endfor %}</table></section>{% endblock %}

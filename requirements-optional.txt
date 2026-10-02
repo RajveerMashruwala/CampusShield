@@ -1,0 +1,2 @@
+# Only needed for pushing ACLs to a real Cisco IOS device over SSH (CAMPUSSHIELD_DEVICE=ssh)
+netmiko>=4.3

@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}{{ a.ip }}{% endblock %}{% block body %}
+<section><h2>{{ a.ip }} - {{ a.hostname }}</h2>
+<p>{{ a.device_type }} | {{ a.os }} | VLAN {{ a.vlan or '-' }} ({{ a.zone }}) | criticality {{ a.criticality }} | MAC {{ a.mac or '-' }} ({{ a.vendor }})</p>
+<p>First seen {{ a.first_seen }}, last seen {{ a.last_seen }}</p></section>
+<section><h2>Findings</h2><table><tr><th>Priority</th><th>Risk</th><th>CVSS</th><th>Title</th><th>Detail</th><th>Status</th></tr>
+{% for f in findings %}<tr><td><span class="badge {{ f.priority }}">{{ f.priority }}</span></td><td>{{ f.risk_score }}</td><td>{{ f.cvss }}</td>
+<td>{{ f.title }}</td><td>{{ f.detail }}</td><td><span class="badge {{ f.status }}">{{ f.status }}</span></td></tr>
+{% else %}<tr><td colspan="6">No findings.</td></tr>{% endfor %}</table></section>
+<section><h2>Recommendations</h2>{% for r in recs %}<p><span class="badge {{ r.status }}">{{ r.status }}</span> {{ r.title }}</p>{% else %}<p>None.</p>{% endfor %}</section>
+{% endblock %}
